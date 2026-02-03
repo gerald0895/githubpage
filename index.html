@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portafolio de Proyectos Tecnológicos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0e27;
+      color: #e4e4e7;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1629 100%);
+    }
+
+    .bg-animation::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 40% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(30px, -30px) rotate(120deg); }
+      66% { transform: translate(-20px, 20px) rotate(240deg); }
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 80px 20px 60px;
+      margin-bottom: 60px;
+    }
+
+    .header h1 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #10b981 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+      animation: gradientShift 5s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: #a1a1aa;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+
+    /* Stats */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    .stat-item {
+      background: rgba(59, 130, 246, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 16px;
+      padding: 24px 32px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .stat-item:hover {
+      transform: translateY(-5px);
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #a1a1aa;
+      font-weight: 500;
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .proyecto {
+      background: rgba(30, 41, 59, 0.5);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(71, 85, 105, 0.3);
+      border-radius: 20px;
+      padding: 28px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .proyecto::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #10b981);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .proyecto:hover {
+      transform: translateY(-8px);
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(139, 92, 246, 0.5);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .proyecto:hover::before {
+      opacity: 1;
+    }
+
+    .proyecto-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .proyecto-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .proyecto h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #f4f4f5;
+      line-height: 1.3;
+    }
+
+    .proyecto-description {
+      color: #a1a1aa;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .proyecto-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .detail-item {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(71, 85, 105, 0.3);
+    }
+
+    .detail-label {
+      color: #3b82f6;
+      font-weight: 600;
+      font-size: 0.8rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .detail-value {
+      color: #e4e4e7;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tech-tag {
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .tech-tag:hover {
+      background: rgba(59, 130, 246, 0.25);
+      border-color: rgba(59, 130, 246, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .impact-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+      z-index: 2;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 80px;
+      padding: 60px 20px;
+      border-top: 1px solid rgba(71, 85, 105, 0.3);
+    }
+
+    .footer h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: #f4f4f5;
+    }
+
+    .footer > p {
+      color: #a1a1aa;
+      margin-bottom: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(30, 41, 59, 0.5);
+      backdrop-filter: blur(10px);
+      padding: 16px 24px;
+      border-radius: 14px;
+      border: 1px solid rgba(71, 85, 105, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .contact-item:hover {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(139, 92, 246, 0.5);
+      transform: translateY(-3px);
+    }
+
+    .contact-item i {
+      font-size: 1.2rem;
+      color: #3b82f6;
+    }
+
+    .contact-item span {
+      font-weight: 500;
+      color: #e4e4e7;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        padding: 60px 20px 40px;
+      }
+
+      .stats {
+        gap: 16px;
+      }
+
+      .stat-item {
+        padding: 20px 24px;
+      }
+
+      .projects-grid {
+        gap: 20px;
+      }
+
+      .proyecto {
+        padding: 24px;
+      }
+
+      .impact-badge {
+        font-size: 0.7rem;
+        padding: 5px 12px;
+      }
+
+      .footer {
+        margin-top: 60px;
+        padding: 40px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .proyecto-details {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-info {
+        gap: 12px;
+      }
+
+      .contact-item {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Selection color */
+    ::selection {
+      background: rgba(59, 130, 246, 0.3);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animation"></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1>Portafolio de Proyectos Tecnológicos</h1>
+      <p class="subtitle">Soluciones innovadoras en infraestructura TI, seguridad y automatización empresarial con resultados medibles</p>
+      
+      <div class="stats">
+        <div class="stat-item">
+          <span class="stat-number">99.9%</span>
+          <span class="stat-label">Uptime Logrado</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">500+</span>
+          <span class="stat-label">Usuarios Gestionados</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">$33K</span>
+          <span class="stat-label">Ahorro Anual</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="projects-grid">
+      <!-- Proyecto 1: FortiAnalyzer -->
+      <div class="proyecto">
+        <div class="impact-badge">Alto Impacto</div>
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+            <i class="fas fa-chart-bar" style="color: #fff;"></i>
+          </div>
+          <h2>Implementación de FortiAnalyzer</h2>
+        </div>
+        <p class="proyecto-description">FortiAnalyzer ofrece visibilidad centralizada y análisis avanzado de toda tu infraestructura Fortinet, permitiendo detectar amenazas más rápido, cumplir regulaciones y optimizar la seguridad con reportes y correlación de eventos desde un solo lugar.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">Duración</span>
+            <span class="detail-value">3 meses</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Mejora Eficiencia</span>
+            <span class="detail-value">35%</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">Análisis de Logs</span>
+          <span class="tech-tag">Detección</span>
+          <span class="tech-tag">Optimización</span>
+          <span class="tech-tag">FortiAnalyzer</span>
+        </div>
+      </div>
+
+      <!-- Proyecto 2: RADIUS -->
+      <div class="proyecto">
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+            <i class="fas fa-shield-alt" style="color: #fff;"></i>
+          </div>
+          <h2>Políticas de Conexión WiFi (RADIUS)</h2>
+        </div>
+        <p class="proyecto-description">Implementación completa de servidor RADIUS con FortiNAC con autenticación 802.1X, políticas de seguridad avanzadas y gestión centralizada de acceso para red WiFi corporativa.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">Usuarios</span>
+            <span class="detail-value">500+</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Protocolo</span>
+            <span class="detail-value">WPA3-Enterprise</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">RADIUS</span>
+          <span class="tech-tag">802.1X</span>
+          <span class="tech-tag">WPA3</span>
+          <span class="tech-tag">Active Directory</span>
+        </div>
+      </div>
+
+      <!-- Proyecto 3: VLANs -->
+      <div class="proyecto">
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+            <i class="fas fa-network-wired" style="color: #fff;"></i>
+          </div>
+          <h2>Segmentación de Redes (VLAN)</h2>
+        </div>
+        <p class="proyecto-description">Reestructuración completa de arquitectura de red con FortiGate implementando VLANs por departamento, WiFi empresarial seguro y políticas de tráfico para optimizar seguridad y rendimiento.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">VLANs Creadas</span>
+            <span class="detail-value">50</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Reducción Tráfico</span>
+            <span class="detail-value">60%</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">VLAN</span>
+          <span class="tech-tag">FortiGate</span>
+          <span class="tech-tag">ACL</span>
+          <span class="tech-tag">Switching</span>
+        </div>
+      </div>
+
+      <!-- Proyecto 4: Azure AD -->
+      <div class="proyecto">
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+            <i class="fas fa-cloud" style="color: #fff;"></i>
+          </div>
+          <h2>Sincronización Azure y AD Local</h2>
+        </div>
+        <p class="proyecto-description">Integración híbrida de identidades utilizando Azure AD Connect con sincronización bidireccional, SSO y políticas de acceso condicional entre entorno on-premise y nube.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">Cuentas Sincronizadas</span>
+            <span class="detail-value">200</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Tiempo Implementación</span>
+            <span class="detail-value">2 Meses</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">Azure AD</span>
+          <span class="tech-tag">AD Connect</span>
+          <span class="tech-tag">SSO</span>
+          <span class="tech-tag">PowerShell</span>
+        </div>
+      </div>
+
+      <!-- Proyecto 5: Zabbix y Grafana -->
+      <div class="proyecto">
+        <div class="impact-badge">$14K Ahorros</div>
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+            <i class="fas fa-chart-line" style="color: #fff;"></i>
+          </div>
+          <h2>Diseño e Implementación de Zabbix y Grafana</h2>
+        </div>
+        <p class="proyecto-description">Implementación de solución de monitoreo empresarial con Zabbix para recolección de métricas, incluyendo alertas automáticas y dashboards personalizados con Grafana.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">Servidores Monitoreados</span>
+            <span class="detail-value">Infraestructura Completa</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Uptime Mejorado</span>
+            <span class="detail-value">99.9%</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">Zabbix</span>
+          <span class="tech-tag">Grafana</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">SNMP</span>
+        </div>
+      </div>
+
+      <!-- Proyecto 6: ManageEngine -->
+      <div class="proyecto">
+        <div class="impact-badge">$19K/mes Ahorros</div>
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+            <i class="fas fa-tools" style="color: #fff;"></i>
+          </div>
+          <h2>Instalación de ManageEngine</h2>
+        </div>
+        <p class="proyecto-description">Despliegue de plataforma de gestión TI integral ManageEngine con ticketing automático, inventario de activos, soporte remoto y reportes ejecutivos para optimización de procesos de soporte.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">Tickets/mes</span>
+            <span class="detail-value">350+</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Tiempo Resolución</span>
+            <span class="detail-value">-45%</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">ManageEngine</span>
+          <span class="tech-tag">ITIL</span>
+          <span class="tech-tag">Help Desk</span>
+          <span class="tech-tag">Asset Management</span>
+        </div>
+      </div>
+
+      <!-- Proyecto 7: Data Center -->
+      <div class="proyecto">
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+            <i class="fas fa-server" style="color: #fff;"></i>
+          </div>
+          <h2>Traslado Completo de Data Center</h2>
+        </div>
+        <p class="proyecto-description">Planificación y ejecución de migración crítica de centro de datos con estrategia de contingencia, pruebas de conectividad y sincronización de datos sin interrupciones del servicio.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">Downtime</span>
+            <span class="detail-value">0 horas</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Servidores Migrados</span>
+            <span class="detail-value">6</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">Migración</span>
+          <span class="tech-tag">VMware</span>
+          <span class="tech-tag">Storage</span>
+          <span class="tech-tag">Networking</span>
+        </div>
+      </div>
+
+      <!-- Proyecto 8: FortiNAC -->
+      <div class="proyecto">
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+            <i class="fas fa-lock" style="color: #fff;"></i>
+          </div>
+          <h2>Implementación de FortiNAC</h2>
+        </div>
+        <p class="proyecto-description">FortiNAC permite controlar qué usuarios y dispositivos entran a tu red, aplicando políticas automáticas de acceso y respuesta. Beneficio clave: mejora la seguridad al identificar, autorizar y segmentar dispositivos automáticamente, incluso los no gestionados.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">Dispositivos Controlados</span>
+            <span class="detail-value">400</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Políticas de Acceso</span>
+            <span class="detail-value">20</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">Seguridad</span>
+          <span class="tech-tag">Identificación</span>
+          <span class="tech-tag">Automation</span>
+          <span class="tech-tag">NAC</span>
+        </div>
+      </div>
+
+      <!-- Proyecto 9: Migración Azure -->
+      <div class="proyecto">
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+            <i class="fas fa-cloud-upload-alt" style="color: #fff;"></i>
+          </div>
+          <h2>Migración de Servidores On-Premise a Azure</h2>
+        </div>
+        <p class="proyecto-description">Migración de servidores de on-premise a Azure ofrece mayor agilidad y disponibilidad, al obtener infraestructura escalable, segura y sin necesidad de mantener hardware físico, reduciendo costos y mejorando la continuidad del negocio.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">VMs Migradas</span>
+            <span class="detail-value">15</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Éxito</span>
+            <span class="detail-value">100%</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">ROI</span>
+          <span class="tech-tag">Migración</span>
+          <span class="tech-tag">Disponibilidad</span>
+          <span class="tech-tag">Azure</span>
+        </div>
+      </div>
+
+      <!-- Proyecto 10: 3CX -->
+      <div class="proyecto">
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+            <i class="fas fa-phone-alt" style="color: #fff;"></i>
+          </div>
+          <h2>Instalación y Configuración de 3CX</h2>
+        </div>
+        <p class="proyecto-description">Implementación de central telefónica IP 3CX con configuración de extensiones, IVR personalizado, sucursales, grabación de llamadas y reportes de tráfico para comunicaciones unificadas.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">Extensiones</span>
+            <span class="detail-value">80</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Llamadas/día</span>
+            <span class="detail-value">450+</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">3CX</span>
+          <span class="tech-tag">Sucursales</span>
+          <span class="tech-tag">VoIP</span>
+          <span class="tech-tag">SIP</span>
+        </div>
+      </div>
+
+      <!-- Proyecto 11: SD-WAN -->
+      <div class="proyecto">
+        <div class="impact-badge">SD-WAN</div>
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #1e293b, #334155);">
+            <i class="fas fa-project-diagram" style="color: #fff;"></i>
+          </div>
+          <h2>Implementación VPN SD-WAN</h2>
+        </div>
+        <p class="proyecto-description">Implementación de VPN SD-WAN entre Azure, sucursales remotas y sucursal principal, asegurando la alta disponibilidad de los servicios y operatividad continua.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">Túneles VPN</span>
+            <span class="detail-value">20+</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Routing</span>
+            <span class="detail-value">Alta Disponibilidad</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">FortiGate</span>
+          <span class="tech-tag">SD-WAN</span>
+          <span class="tech-tag">Routing</span>
+          <span class="tech-tag">Networking</span>
+        </div>
+      </div>
+
+      <!-- Proyecto 12: Microsoft Intune -->
+      <div class="proyecto">
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #64748b, #475569);">
+            <i class="fas fa-laptop" style="color: #fff;"></i>
+          </div>
+          <h2>Implementación de Microsoft Intune</h2>
+        </div>
+        <p class="proyecto-description">Diseño e implementación de Microsoft Intune para la gestión remota de equipos de tecnología, flotas, laptops y dispositivos BYOD, implementando buenas prácticas de seguridad para endpoints y gestionando el inventario de equipos.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">Equipos Gestionados</span>
+            <span class="detail-value">300+</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Precisión Inventario</span>
+            <span class="detail-value">98%</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">Intune</span>
+          <span class="tech-tag">ITIL</span>
+          <span class="tech-tag">Inventario</span>
+          <span class="tech-tag">BYOD</span>
+        </div>
+      </div>
+
+      <!-- Proyecto 13: Veeam -->
+      <div class="proyecto">
+        <div class="proyecto-header">
+          <div class="proyecto-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+            <i class="fas fa-hdd" style="color: #fff;"></i>
+          </div>
+          <h2>Implementación de Veeam Backup y Office 365</h2>
+        </div>
+        <p class="proyecto-description">Implementé Veeam Backup para asegurar la continuidad del negocio con copias de seguridad eficientes, restauración rápida y protección avanzada contra pérdida de datos. También Veeam para Microsoft 365, garantizando respaldo seguro de correos, OneDrive, SharePoint y Teams.</p>
+        <div class="proyecto-details">
+          <div class="detail-item">
+            <span class="detail-label">Instancias en Backup</span>
+            <span class="detail-value">25</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Máquinas Completadas</span>
+            <span class="detail-value">25</span>
+          </div>
+        </div>
+        <div class="tech-tags">
+          <span class="tech-tag">Veeam Backup</span>
+          <span class="tech-tag">Office 365</span>
+          <span class="tech-tag">Restore</span>
+          <span class="tech-tag">DR</span>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <h3>Especialista en Infraestructura TI y Transformación Digital</h3>
+      <p>Experiencia comprobada en proyectos críticos con enfoque en resultados medibles y ROI positivo</p>
+      
+      <div class="contact-info">
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <span>849-273-7590</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-briefcase"></i>
+          <span>Disponible para proyectos</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-globe"></i>
+          <span>Consultoría TI</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
+
