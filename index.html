@@ -1,795 +1,937 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portafolio de Proyectos Tecnológicos</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0a0e27;
-      color: #e4e4e7;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* Animated background */
-    .bg-animation {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1629 100%);
-    }
-
-    .bg-animation::before {
-      content: '';
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                  radial-gradient(circle at 40% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
-      animation: float 20s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      33% { transform: translate(30px, -30px) rotate(120deg); }
-      66% { transform: translate(-20px, 20px) rotate(240deg); }
-    }
-
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Header */
-    .header {
-      text-align: center;
-      padding: 80px 20px 60px;
-      margin-bottom: 60px;
-    }
-
-    .header h1 {
-      font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: 800;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #10b981 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.02em;
-      animation: gradientShift 5s ease infinite;
-      background-size: 200% 200%;
-    }
-
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    .subtitle {
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
-      color: #a1a1aa;
-      max-width: 800px;
-      margin: 0 auto 40px;
-      line-height: 1.8;
-    }
-
-    /* Stats */
-    .stats {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-      margin-top: 40px;
-    }
-
-    .stat-item {
-      background: rgba(59, 130, 246, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(59, 130, 246, 0.2);
-      border-radius: 16px;
-      padding: 24px 32px;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .stat-item:hover {
-      transform: translateY(-5px);
-      background: rgba(59, 130, 246, 0.15);
-      border-color: rgba(59, 130, 246, 0.4);
-    }
-
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .stat-label {
-      font-size: 0.9rem;
-      color: #a1a1aa;
-      font-weight: 500;
-    }
-
-    /* Projects Grid */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
-      gap: 24px;
-      margin-top: 40px;
-    }
-
-    .proyecto {
-      background: rgba(30, 41, 59, 0.5);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(71, 85, 105, 0.3);
-      border-radius: 20px;
-      padding: 28px;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .proyecto::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #10b981);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .proyecto:hover {
-      transform: translateY(-8px);
-      background: rgba(30, 41, 59, 0.8);
-      border-color: rgba(139, 92, 246, 0.5);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .proyecto:hover::before {
-      opacity: 1;
-    }
-
-    .proyecto-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .proyecto-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      flex-shrink: 0;
-    }
-
-    .proyecto h2 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #f4f4f5;
-      line-height: 1.3;
-    }
-
-    .proyecto-description {
-      color: #a1a1aa;
-      margin-bottom: 20px;
-      font-size: 0.95rem;
-      line-height: 1.7;
-    }
-
-    .proyecto-details {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .detail-item {
-      background: rgba(15, 23, 42, 0.6);
-      padding: 12px 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(71, 85, 105, 0.3);
-    }
-
-    .detail-label {
-      color: #3b82f6;
-      font-weight: 600;
-      font-size: 0.8rem;
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .detail-value {
-      color: #e4e4e7;
-      font-weight: 500;
-      font-size: 0.9rem;
-    }
-
-    .tech-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .tech-tag {
-      background: rgba(59, 130, 246, 0.15);
-      color: #93c5fd;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      transition: all 0.2s ease;
-    }
-
-    .tech-tag:hover {
-      background: rgba(59, 130, 246, 0.25);
-      border-color: rgba(59, 130, 246, 0.5);
-      transform: translateY(-2px);
-    }
-
-    .impact-badge {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: #fff;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-      z-index: 2;
-    }
-
-    /* Footer */
-    .footer {
-      text-align: center;
-      margin-top: 80px;
-      padding: 60px 20px;
-      border-top: 1px solid rgba(71, 85, 105, 0.3);
-    }
-
-    .footer h3 {
-      font-size: 1.5rem;
-      margin-bottom: 12px;
-      color: #f4f4f5;
-    }
-
-    .footer > p {
-      color: #a1a1aa;
-      margin-bottom: 30px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .contact-info {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(30, 41, 59, 0.5);
-      backdrop-filter: blur(10px);
-      padding: 16px 24px;
-      border-radius: 14px;
-      border: 1px solid rgba(71, 85, 105, 0.3);
-      transition: all 0.3s ease;
-    }
-
-    .contact-item:hover {
-      background: rgba(30, 41, 59, 0.8);
-      border-color: rgba(139, 92, 246, 0.5);
-      transform: translateY(-3px);
-    }
-
-    .contact-item i {
-      font-size: 1.2rem;
-      color: #3b82f6;
-    }
-
-    .contact-item span {
-      font-weight: 500;
-      color: #e4e4e7;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header {
-        padding: 60px 20px 40px;
-      }
-
-      .stats {
-        gap: 16px;
-      }
-
-      .stat-item {
-        padding: 20px 24px;
-      }
-
-      .projects-grid {
-        gap: 20px;
-      }
-
-      .proyecto {
-        padding: 24px;
-      }
-
-      .impact-badge {
-        font-size: 0.7rem;
-        padding: 5px 12px;
-      }
-
-      .footer {
-        margin-top: 60px;
-        padding: 40px 20px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .proyecto-details {
-        grid-template-columns: 1fr;
-      }
-
-      .contact-info {
-        gap: 12px;
-      }
-
-      .contact-item {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-
-    /* Smooth scroll */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* Selection color */
-    ::selection {
-      background: rgba(59, 130, 246, 0.3);
-      color: #fff;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerald | Cybersecurity & Cloud Infrastructure Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        cyber: {
+                            bg: '#090d16',
+                            card: '#111827',
+                            cardHover: '#162033',
+                            border: '#1f2937',
+                            accent: '#38bdf8',
+                            emerald: '#10b981',
+                            purple: '#818cf8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #090d16;
+            color: #f3f4f6;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
+        }
+        .cyber-grid {
+            background-size: 32px 32px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        }
+        .project-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .project-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.45);
+            box-shadow: 0 12px 30px -10px rgba(56, 189, 248, 0.15);
+        }
+    </style>
 </head>
-<body>
-  <div class="bg-animation"></div>
-  
-  <div class="container">
-    <header class="header">
-      <h1>Portafolio de Proyectos Tecnológicos</h1>
-      <p class="subtitle">Soluciones innovadoras en infraestructura TI, seguridad y automatización empresarial con resultados medibles</p>
-      
-      <div class="stats">
-        <div class="stat-item">
-          <span class="stat-number">99.9%</span>
-          <span class="stat-label">Uptime Logrado</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">500+</span>
-          <span class="stat-label">Usuarios Gestionados</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">$33K</span>
-          <span class="stat-label">Ahorro Anual</span>
-        </div>
-      </div>
-    </header>
+<body class="cyber-grid min-h-screen flex flex-col antialiased selection:bg-sky-500/30 selection:text-sky-200">
 
-    <div class="projects-grid">
-      <!-- Proyecto 1: FortiAnalyzer -->
-      <div class="proyecto">
-        <div class="impact-badge">Alto Impacto</div>
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-            <i class="fas fa-chart-bar" style="color: #fff;"></i>
-          </div>
-          <h2>Implementación de FortiAnalyzer</h2>
+    <!-- Notificación Toast para copiado de código -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden items-center gap-3 bg-emerald-950/95 border border-emerald-500/50 text-emerald-200 px-4 py-3 rounded-xl shadow-2xl backdrop-blur-md transition-all duration-300">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <div>
+            <p class="text-sm font-semibold">¡Código HTML copiado!</p>
+            <p class="text-xs text-emerald-300/80">Listo para pegar en tu archivo index.html de GitHub Pages.</p>
         </div>
-        <p class="proyecto-description">FortiAnalyzer ofrece visibilidad centralizada y análisis avanzado de toda tu infraestructura Fortinet, permitiendo detectar amenazas más rápido, cumplir regulaciones y optimizar la seguridad con reportes y correlación de eventos desde un solo lugar.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">Duración</span>
-            <span class="detail-value">3 meses</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Mejora Eficiencia</span>
-            <span class="detail-value">35%</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">Análisis de Logs</span>
-          <span class="tech-tag">Detección</span>
-          <span class="tech-tag">Optimización</span>
-          <span class="tech-tag">FortiAnalyzer</span>
-        </div>
-      </div>
-
-      <!-- Proyecto 2: RADIUS -->
-      <div class="proyecto">
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
-            <i class="fas fa-shield-alt" style="color: #fff;"></i>
-          </div>
-          <h2>Políticas de Conexión WiFi (RADIUS)</h2>
-        </div>
-        <p class="proyecto-description">Implementación completa de servidor RADIUS con FortiNAC con autenticación 802.1X, políticas de seguridad avanzadas y gestión centralizada de acceso para red WiFi corporativa.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">Usuarios</span>
-            <span class="detail-value">500+</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Protocolo</span>
-            <span class="detail-value">WPA3-Enterprise</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">RADIUS</span>
-          <span class="tech-tag">802.1X</span>
-          <span class="tech-tag">WPA3</span>
-          <span class="tech-tag">Active Directory</span>
-        </div>
-      </div>
-
-      <!-- Proyecto 3: VLANs -->
-      <div class="proyecto">
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
-            <i class="fas fa-network-wired" style="color: #fff;"></i>
-          </div>
-          <h2>Segmentación de Redes (VLAN)</h2>
-        </div>
-        <p class="proyecto-description">Reestructuración completa de arquitectura de red con FortiGate implementando VLANs por departamento, WiFi empresarial seguro y políticas de tráfico para optimizar seguridad y rendimiento.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">VLANs Creadas</span>
-            <span class="detail-value">50</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Reducción Tráfico</span>
-            <span class="detail-value">60%</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">VLAN</span>
-          <span class="tech-tag">FortiGate</span>
-          <span class="tech-tag">ACL</span>
-          <span class="tech-tag">Switching</span>
-        </div>
-      </div>
-
-      <!-- Proyecto 4: Azure AD -->
-      <div class="proyecto">
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
-            <i class="fas fa-cloud" style="color: #fff;"></i>
-          </div>
-          <h2>Sincronización Azure y AD Local</h2>
-        </div>
-        <p class="proyecto-description">Integración híbrida de identidades utilizando Azure AD Connect con sincronización bidireccional, SSO y políticas de acceso condicional entre entorno on-premise y nube.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">Cuentas Sincronizadas</span>
-            <span class="detail-value">200</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Tiempo Implementación</span>
-            <span class="detail-value">2 Meses</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">Azure AD</span>
-          <span class="tech-tag">AD Connect</span>
-          <span class="tech-tag">SSO</span>
-          <span class="tech-tag">PowerShell</span>
-        </div>
-      </div>
-
-      <!-- Proyecto 5: Zabbix y Grafana -->
-      <div class="proyecto">
-        <div class="impact-badge">$14K Ahorros</div>
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-            <i class="fas fa-chart-line" style="color: #fff;"></i>
-          </div>
-          <h2>Diseño e Implementación de Zabbix y Grafana</h2>
-        </div>
-        <p class="proyecto-description">Implementación de solución de monitoreo empresarial con Zabbix para recolección de métricas, incluyendo alertas automáticas y dashboards personalizados con Grafana.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">Servidores Monitoreados</span>
-            <span class="detail-value">Infraestructura Completa</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Uptime Mejorado</span>
-            <span class="detail-value">99.9%</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">Zabbix</span>
-          <span class="tech-tag">Grafana</span>
-          <span class="tech-tag">MySQL</span>
-          <span class="tech-tag">SNMP</span>
-        </div>
-      </div>
-
-      <!-- Proyecto 6: ManageEngine -->
-      <div class="proyecto">
-        <div class="impact-badge">$19K/mes Ahorros</div>
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
-            <i class="fas fa-tools" style="color: #fff;"></i>
-          </div>
-          <h2>Instalación de ManageEngine</h2>
-        </div>
-        <p class="proyecto-description">Despliegue de plataforma de gestión TI integral ManageEngine con ticketing automático, inventario de activos, soporte remoto y reportes ejecutivos para optimización de procesos de soporte.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">Tickets/mes</span>
-            <span class="detail-value">350+</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Tiempo Resolución</span>
-            <span class="detail-value">-45%</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">ManageEngine</span>
-          <span class="tech-tag">ITIL</span>
-          <span class="tech-tag">Help Desk</span>
-          <span class="tech-tag">Asset Management</span>
-        </div>
-      </div>
-
-      <!-- Proyecto 7: Data Center -->
-      <div class="proyecto">
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
-            <i class="fas fa-server" style="color: #fff;"></i>
-          </div>
-          <h2>Traslado Completo de Data Center</h2>
-        </div>
-        <p class="proyecto-description">Planificación y ejecución de migración crítica de centro de datos con estrategia de contingencia, pruebas de conectividad y sincronización de datos sin interrupciones del servicio.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">Downtime</span>
-            <span class="detail-value">0 horas</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Servidores Migrados</span>
-            <span class="detail-value">6</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">Migración</span>
-          <span class="tech-tag">VMware</span>
-          <span class="tech-tag">Storage</span>
-          <span class="tech-tag">Networking</span>
-        </div>
-      </div>
-
-      <!-- Proyecto 8: FortiNAC -->
-      <div class="proyecto">
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
-            <i class="fas fa-lock" style="color: #fff;"></i>
-          </div>
-          <h2>Implementación de FortiNAC</h2>
-        </div>
-        <p class="proyecto-description">FortiNAC permite controlar qué usuarios y dispositivos entran a tu red, aplicando políticas automáticas de acceso y respuesta. Beneficio clave: mejora la seguridad al identificar, autorizar y segmentar dispositivos automáticamente, incluso los no gestionados.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">Dispositivos Controlados</span>
-            <span class="detail-value">400</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Políticas de Acceso</span>
-            <span class="detail-value">20</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">Seguridad</span>
-          <span class="tech-tag">Identificación</span>
-          <span class="tech-tag">Automation</span>
-          <span class="tech-tag">NAC</span>
-        </div>
-      </div>
-
-      <!-- Proyecto 9: Migración Azure -->
-      <div class="proyecto">
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
-            <i class="fas fa-cloud-upload-alt" style="color: #fff;"></i>
-          </div>
-          <h2>Migración de Servidores On-Premise a Azure</h2>
-        </div>
-        <p class="proyecto-description">Migración de servidores de on-premise a Azure ofrece mayor agilidad y disponibilidad, al obtener infraestructura escalable, segura y sin necesidad de mantener hardware físico, reduciendo costos y mejorando la continuidad del negocio.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">VMs Migradas</span>
-            <span class="detail-value">15</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Éxito</span>
-            <span class="detail-value">100%</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">ROI</span>
-          <span class="tech-tag">Migración</span>
-          <span class="tech-tag">Disponibilidad</span>
-          <span class="tech-tag">Azure</span>
-        </div>
-      </div>
-
-      <!-- Proyecto 10: 3CX -->
-      <div class="proyecto">
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
-            <i class="fas fa-phone-alt" style="color: #fff;"></i>
-          </div>
-          <h2>Instalación y Configuración de 3CX</h2>
-        </div>
-        <p class="proyecto-description">Implementación de central telefónica IP 3CX con configuración de extensiones, IVR personalizado, sucursales, grabación de llamadas y reportes de tráfico para comunicaciones unificadas.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">Extensiones</span>
-            <span class="detail-value">80</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Llamadas/día</span>
-            <span class="detail-value">450+</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">3CX</span>
-          <span class="tech-tag">Sucursales</span>
-          <span class="tech-tag">VoIP</span>
-          <span class="tech-tag">SIP</span>
-        </div>
-      </div>
-
-      <!-- Proyecto 11: SD-WAN -->
-      <div class="proyecto">
-        <div class="impact-badge">SD-WAN</div>
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #1e293b, #334155);">
-            <i class="fas fa-project-diagram" style="color: #fff;"></i>
-          </div>
-          <h2>Implementación VPN SD-WAN</h2>
-        </div>
-        <p class="proyecto-description">Implementación de VPN SD-WAN entre Azure, sucursales remotas y sucursal principal, asegurando la alta disponibilidad de los servicios y operatividad continua.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">Túneles VPN</span>
-            <span class="detail-value">20+</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Routing</span>
-            <span class="detail-value">Alta Disponibilidad</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">FortiGate</span>
-          <span class="tech-tag">SD-WAN</span>
-          <span class="tech-tag">Routing</span>
-          <span class="tech-tag">Networking</span>
-        </div>
-      </div>
-
-      <!-- Proyecto 12: Microsoft Intune -->
-      <div class="proyecto">
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #64748b, #475569);">
-            <i class="fas fa-laptop" style="color: #fff;"></i>
-          </div>
-          <h2>Implementación de Microsoft Intune</h2>
-        </div>
-        <p class="proyecto-description">Diseño e implementación de Microsoft Intune para la gestión remota de equipos de tecnología, flotas, laptops y dispositivos BYOD, implementando buenas prácticas de seguridad para endpoints y gestionando el inventario de equipos.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">Equipos Gestionados</span>
-            <span class="detail-value">300+</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Precisión Inventario</span>
-            <span class="detail-value">98%</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">Intune</span>
-          <span class="tech-tag">ITIL</span>
-          <span class="tech-tag">Inventario</span>
-          <span class="tech-tag">BYOD</span>
-        </div>
-      </div>
-
-      <!-- Proyecto 13: Veeam -->
-      <div class="proyecto">
-        <div class="proyecto-header">
-          <div class="proyecto-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
-            <i class="fas fa-hdd" style="color: #fff;"></i>
-          </div>
-          <h2>Implementación de Veeam Backup y Office 365</h2>
-        </div>
-        <p class="proyecto-description">Implementé Veeam Backup para asegurar la continuidad del negocio con copias de seguridad eficientes, restauración rápida y protección avanzada contra pérdida de datos. También Veeam para Microsoft 365, garantizando respaldo seguro de correos, OneDrive, SharePoint y Teams.</p>
-        <div class="proyecto-details">
-          <div class="detail-item">
-            <span class="detail-label">Instancias en Backup</span>
-            <span class="detail-value">25</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Máquinas Completadas</span>
-            <span class="detail-value">25</span>
-          </div>
-        </div>
-        <div class="tech-tags">
-          <span class="tech-tag">Veeam Backup</span>
-          <span class="tech-tag">Office 365</span>
-          <span class="tech-tag">Restore</span>
-          <span class="tech-tag">DR</span>
-        </div>
-      </div>
     </div>
 
-    <footer class="footer">
-      <h3>Especialista en Infraestructura TI y Transformación Digital</h3>
-      <p>Experiencia comprobada en proyectos críticos con enfoque en resultados medibles y ROI positivo</p>
-      
-      <div class="contact-info">
-        <div class="contact-item">
-          <i class="fas fa-phone"></i>
-          <span>849-273-7590</span>
+    <!-- Barra de Navegación -->
+    <header class="sticky top-0 z-40 border-b border-gray-800/80 bg-[#090d16]/85 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 group-hover:bg-sky-500/20 transition">
+                    <i class="fa-solid fa-shield-halved text-base"></i>
+                </div>
+                <span class="font-mono font-bold text-lg tracking-tight text-white">gerald<span class="text-sky-400">0895</span></span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
+                <a href="#proyectos" class="hover:text-white transition">Proyectos (11)</a>
+                <a href="#iam-endpoint" class="hover:text-sky-400 transition">Arquitectura & Zero Trust</a>
+                <a href="#stack" class="hover:text-white transition">Stack Técnico</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <button id="copy-btn-nav" onclick="copyCleanHTML()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/30 transition cursor-pointer" title="Copiar todo el código HTML limpio para GitHub Pages">
+                    <i class="fa-regular fa-copy"></i>
+                    <span>Copiar Código HTML</span>
+                </button>
+                <a href="https://github.com/gerald0895" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-gray-800/80 hover:bg-gray-700 border border-gray-700 flex items-center justify-center text-gray-300 hover:text-white transition" aria-label="GitHub">
+                    <i class="fa-brands fa-github text-lg"></i>
+                </a>
+            </div>
         </div>
-        <div class="contact-item">
-          <i class="fas fa-briefcase"></i>
-          <span>Disponible para proyectos</span>
+    </header>
+
+    <!-- Hero Section Unificado: Ciberseguridad + Arquitectura de Infraestructura TI -->
+    <section class="relative pt-14 pb-12 sm:pt-20 sm:pb-16 border-b border-gray-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-mono mb-5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Gerente de Ciberseguridad & Arquitecto de Infraestructura TI
+                </div>
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight mb-5">
+                    Arquitectura de Infraestructura, <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">Zero Trust</span> y Ciberdefensa Empresarial
+                </h1>
+                <p class="text-base sm:text-lg text-gray-400 leading-relaxed mb-8">
+                    Unión estratégica entre diseño de infraestructura de alta disponibilidad (FortiGate, Veeam, Windows Server, Exchange, ITSM) y ciberseguridad moderna (Entra ID PIM, Conditional Access, flotas Intune, SOC/SIEM, NIST y nube híbrida Azure/AWS).
+                </p>
+                <div class="flex flex-wrap gap-3">
+                    <a href="#proyectos" class="px-5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-sm transition shadow-lg shadow-sky-500/20">
+                        Explorar Portafolio Completo (11)
+                    </a>
+                    <button onclick="filterProjects('infra', document.getElementById('tab-infra'))" class="px-5 py-2.5 rounded-xl bg-gray-800/90 hover:bg-gray-800 text-gray-200 border border-gray-700 font-medium text-sm transition cursor-pointer">
+                        Ver Infraestructura & Arquitectura
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="contact-item">
-          <i class="fas fa-globe"></i>
-          <span>Consultoría TI</span>
+    </section>
+
+    <!-- Sección Principal de Proyectos Unificados -->
+    <main id="proyectos" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        
+        <!-- Filtros por categoría -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-10">
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Proyectos de Arquitectura & Ciberseguridad</h2>
+                <p class="text-sm text-gray-400 mt-1">Haz clic en <span class="text-sky-400 font-medium">"Ver arquitectura técnica"</span> en cualquier casilla para inspeccionar el diseño implementado.</p>
+            </div>
+            <div class="flex flex-wrap gap-2" id="filter-buttons">
+                <button onclick="filterProjects('all', this)" class="filter-btn active px-3.5 py-1.5 rounded-lg text-xs font-medium bg-sky-500/20 text-sky-300 border border-sky-500/40 transition cursor-pointer">Todos (11)</button>
+                <button id="tab-infra" onclick="filterProjects('infra', this)" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-gray-800/70 text-gray-400 border border-gray-700 hover:text-white transition cursor-pointer">Arquitectura e Infraestructura</button>
+                <button onclick="filterProjects('iam', this)" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-gray-800/70 text-gray-400 border border-gray-700 hover:text-white transition cursor-pointer">Identidad y Zero Trust</button>
+                <button onclick="filterProjects('intune', this)" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-gray-800/70 text-gray-400 border border-gray-700 hover:text-white transition cursor-pointer">Intune y Endpoints</button>
+                <button onclick="filterProjects('secops', this)" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-gray-800/70 text-gray-400 border border-gray-700 hover:text-white transition cursor-pointer">Ciberseguridad y Cloud</button>
+            </div>
         </div>
-      </div>
+
+        <!-- Grid Unificado de 11 Casillas -->
+        <div id="iam-endpoint" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- 1. IDENTIDAD: Microsoft Entra PIM -->
+            <article data-category="iam" class="project-card bg-[#111827]/90 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 px-3 py-1 bg-sky-500/15 border-b border-l border-sky-500/30 rounded-bl-xl text-[11px] font-mono text-sky-300">
+                    IDENTIDAD · ZERO TRUST
+                </div>
+                <div>
+                    <div class="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/25 flex items-center justify-center text-sky-400 mb-5">
+                        <i class="fa-solid fa-user-shield text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                        Microsoft Entra PIM (Privileged Identity Management)
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+                        Implementación de acceso privilegiado bajo demanda (Just-In-Time) para eliminar privilegios permanentes y reducir la superficie de ataque en roles críticos de Azure y Microsoft 365.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-sky-400 mt-0.5"></i>
+                            <span>Activación temporal (JIT) con aprobación obligatoria y justificación de negocio.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-sky-400 mt-0.5"></i>
+                            <span>MFA resistente al phishing para Global Admin, Security Admin e Intune Admin.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-sky-400 mt-0.5"></i>
+                            <span>Revisiones periódicas de acceso (Access Reviews) y alertas de auditoría.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="pt-4 border-t border-gray-800/80 flex flex-wrap gap-1.5 mb-3">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-sky-300 font-mono text-[11px]">Entra ID PIM</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">RBAC</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">Just-In-Time</span>
+                    </div>
+                    <button onclick="openModal('pim')" class="w-full py-2 px-3 rounded-lg bg-gray-800/70 hover:bg-sky-500/20 text-xs font-medium text-sky-300 border border-gray-700 hover:border-sky-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Ver arquitectura técnica</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- 2. IDENTIDAD: Conditional Access & Zero Trust -->
+            <article data-category="iam" class="project-card bg-[#111827]/90 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 px-3 py-1 bg-indigo-500/15 border-b border-l border-indigo-500/30 rounded-bl-xl text-[11px] font-mono text-indigo-300">
+                    IDENTIDAD · ZERO TRUST
+                </div>
+                <div>
+                    <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-indigo-400 mb-5">
+                        <i class="fa-solid fa-fingerprint text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                        Arquitectura Conditional Access & Zero Trust
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+                        Diseño y despliegue de motor de políticas adaptativas basadas en identidad, riesgo de sesión y postura del dispositivo para proteger aplicaciones empresariales.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-indigo-400 mt-0.5"></i>
+                            <span>Bloqueo de autenticación heredada (Legacy Auth) y geolocalización no autorizada.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-indigo-400 mt-0.5"></i>
+                            <span>Acceso condicionado a dispositivos marcados como <em>Compliant</em> en Intune o Hybrid Joined.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-indigo-400 mt-0.5"></i>
+                            <span>Remediación automática de riesgo de usuario/sesión vía Entra ID Protection.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="pt-4 border-t border-gray-800/80 flex flex-wrap gap-1.5 mb-3">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-indigo-300 font-mono text-[11px]">Conditional Access</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">Zero Trust</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">MFA</span>
+                    </div>
+                    <button onclick="openModal('ca')" class="w-full py-2 px-3 rounded-lg bg-gray-800/70 hover:bg-indigo-500/20 text-xs font-medium text-indigo-300 border border-gray-700 hover:border-indigo-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Ver arquitectura técnica</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- 3. INTUNE: Unión Híbrida (AD -> Intune) y Migración de Políticas -->
+            <article data-category="intune" class="project-card bg-[#111827]/90 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 px-3 py-1 bg-emerald-500/15 border-b border-l border-emerald-500/30 rounded-bl-xl text-[11px] font-mono text-emerald-300">
+                    INTUNE & ENDPOINTS
+                </div>
+                <div>
+                    <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 mb-5">
+                        <i class="fa-solid fa-network-wired text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                        Unión Híbrida (AD &rarr; Intune) y Migración de Políticas
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+                        Integración de Active Directory On-Premise hacia Microsoft Entra ID e inscripción automática en Intune, modernizando directivas tradicionales (GPO).
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                            <span>Microsoft Entra Connect Sync y Hybrid Entra Join sin interrupción operativa.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                            <span>Migración de GPOs críticas a Settings Catalog y Security Baselines de Intune.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                            <span>Hardening de endpoints Windows mediante perfiles de restricción y firewall.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="pt-4 border-t border-gray-800/80 flex flex-wrap gap-1.5 mb-3">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-emerald-300 font-mono text-[11px]">Hybrid Entra Join</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">GPO to MDM</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">Security Baselines</span>
+                    </div>
+                    <button onclick="openModal('hybrid')" class="w-full py-2 px-3 rounded-lg bg-gray-800/70 hover:bg-emerald-500/20 text-xs font-medium text-emerald-300 border border-gray-700 hover:border-emerald-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Ver arquitectura técnica</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- 4. INTUNE: Implementación de Flotas Manejadas por Intune -->
+            <article data-category="intune" class="project-card bg-[#111827]/90 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 px-3 py-1 bg-teal-500/15 border-b border-l border-teal-500/30 rounded-bl-xl text-[11px] font-mono text-teal-300">
+                    INTUNE & ENDPOINTS
+                </div>
+                <div>
+                    <div class="w-11 h-11 rounded-xl bg-teal-500/10 border border-teal-500/25 flex items-center justify-center text-teal-400 mb-5">
+                        <i class="fa-solid fa-laptop-code text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                        Implementación de Flotas Corporativas con Intune
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+                        Gestión centralizada del ciclo de vida de flotas corporativas (Windows, iOS/Android) con aprovisionamiento automatizado y cumplimiento continuo.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-teal-400 mt-0.5"></i>
+                            <span>Despliegue Zero-Touch mediante Windows Autopilot por perfiles departamentales.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-teal-400 mt-0.5"></i>
+                            <span>Cifrado BitLocker con respaldo en Entra ID y rotación automática de claves LAPS.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-teal-400 mt-0.5"></i>
+                            <span>Distribución de apps Win32, Windows Update for Business y borrado remoto.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="pt-4 border-t border-gray-800/80 flex flex-wrap gap-1.5 mb-3">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-teal-300 font-mono text-[11px]">Microsoft Intune</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">Autopilot</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">BitLocker / LAPS</span>
+                    </div>
+                    <button onclick="openModal('fleet')" class="w-full py-2 px-3 rounded-lg bg-gray-800/70 hover:bg-teal-500/20 text-xs font-medium text-teal-300 border border-gray-700 hover:border-teal-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Ver arquitectura técnica</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- 5. INFRAESTRUCTURA: FortiGate Perimeter Security & Virtual Wire Pair -->
+            <article data-category="infra" class="project-card bg-[#111827]/90 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 px-3 py-1 bg-cyan-500/15 border-b border-l border-cyan-500/30 rounded-bl-xl text-[11px] font-mono text-cyan-300">
+                    INFRAESTRUCTURA · REDES
+                </div>
+                <div>
+                    <div class="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400 mb-5">
+                        <i class="fa-solid fa-fire-flame-curved text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                        Seguridad Perimetral FortiGate, VPN & Virtual Wire Pair
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+                        Fortalecimiento de redes perimetrales y segmentación transparente mediante firewalls FortiGate con inspección profunda UTM y alta disponibilidad.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-cyan-400 mt-0.5"></i>
+                            <span>Implementación de <strong>Virtual Wire Pair</strong> para inspección IPS/UTM inline sin alterar el direccionamiento IP existente.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-cyan-400 mt-0.5"></i>
+                            <span>Túneles VPN Site-to-Site IPsec y SSL VPN con doble factor de autenticación (2FA).</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-cyan-400 mt-0.5"></i>
+                            <span>Control de aplicaciones, Web Filtering, SD-WAN y análisis de tráfico en tiempo real.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="pt-4 border-t border-gray-800/80 flex flex-wrap gap-1.5 mb-3">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-cyan-300 font-mono text-[11px]">FortiGate UTM</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">Virtual Wire Pair</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">IPsec / SSL VPN</span>
+                    </div>
+                    <button onclick="openModal('fortigate')" class="w-full py-2 px-3 rounded-lg bg-gray-800/70 hover:bg-cyan-500/20 text-xs font-medium text-cyan-300 border border-gray-700 hover:border-cyan-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Ver arquitectura técnica</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- 6. INFRAESTRUCTURA: Veeam Backup & Replication / Disaster Recovery / Virtual Labs -->
+            <article data-category="infra" class="project-card bg-[#111827]/90 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 px-3 py-1 bg-blue-500/15 border-b border-l border-blue-500/30 rounded-bl-xl text-[11px] font-mono text-blue-300">
+                    INFRAESTRUCTURA · DRP
+                </div>
+                <div>
+                    <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/25 flex items-center justify-center text-blue-400 mb-5">
+                        <i class="fa-solid fa-database text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                        Veeam Backup, Disaster Recovery & Virtual Labs
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+                        Arquitectura de respaldo inmutable (regla 3-2-1-1-0) y continuidad operativa asegurando tiempos RPO/RTO críticos frente a fallos o ransomware.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-blue-400 mt-0.5"></i>
+                            <span>Configuración de <strong>Virtual Labs</strong> y SureBackup para verificación automática de recuperación y pruebas en entornos aislados.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-blue-400 mt-0.5"></i>
+                            <span>Repositorios inmutables (Hardened Linux Repository) protegidos contra cifrado malicioso.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-blue-400 mt-0.5"></i>
+                            <span>Replicación de máquinas virtuales críticas y recuperación granular de bases de datos.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="pt-4 border-t border-gray-800/80 flex flex-wrap gap-1.5 mb-3">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-blue-300 font-mono text-[11px]">Veeam B&R</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">Virtual Labs</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">RPO / RTO</span>
+                    </div>
+                    <button onclick="openModal('veeam')" class="w-full py-2 px-3 rounded-lg bg-gray-800/70 hover:bg-blue-500/20 text-xs font-medium text-blue-300 border border-gray-700 hover:border-blue-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Ver arquitectura técnica</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- 7. INFRAESTRUCTURA: Active Directory, Windows Server, IIS & PowerShell -->
+            <article data-category="infra" class="project-card bg-[#111827]/90 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 px-3 py-1 bg-purple-500/15 border-b border-l border-purple-500/30 rounded-bl-xl text-[11px] font-mono text-purple-300">
+                    INFRAESTRUCTURA · CORE
+                </div>
+                <div>
+                    <div class="w-11 h-11 rounded-xl bg-purple-500/10 border border-purple-500/25 flex items-center justify-center text-purple-400 mb-5">
+                        <i class="fa-solid fa-server text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                        Active Directory, Windows Server, IIS & PowerShell
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+                        Administración, endurecimiento (Hardening) y automatización de servicios de directorio empresarial, servidores web y roles críticos Windows Server.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-purple-400 mt-0.5"></i>
+                            <span>Diseño de jerarquía de OUs, delegaciones administrativas, DNS/DHCP redundantes y GPOs corporativas.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-purple-400 mt-0.5"></i>
+                            <span>Despliegue seguro de aplicaciones web en <strong>IIS</strong> con certificados TLS 1.3 y cabeceras de seguridad.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-purple-400 mt-0.5"></i>
+                            <span>Scripts en <strong>PowerShell</strong> para auditoría de cuentas inactivas, aprovisionamiento y reportes.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="pt-4 border-t border-gray-800/80 flex flex-wrap gap-1.5 mb-3">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-purple-300 font-mono text-[11px]">Active Directory</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">Windows Server / IIS</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">PowerShell</span>
+                    </div>
+                    <button onclick="openModal('adserver')" class="w-full py-2 px-3 rounded-lg bg-gray-800/70 hover:bg-purple-500/20 text-xs font-medium text-purple-300 border border-gray-700 hover:border-purple-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Ver arquitectura técnica</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- 8. INFRAESTRUCTURA: Exchange Online & Microsoft 365 Mail Security / Perimeter Gateway -->
+            <article data-category="infra" class="project-card bg-[#111827]/90 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 px-3 py-1 bg-sky-500/15 border-b border-l border-sky-500/30 rounded-bl-xl text-[11px] font-mono text-sky-300">
+                    INFRAESTRUCTURA · M365
+                </div>
+                <div>
+                    <div class="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/25 flex items-center justify-center text-sky-400 mb-5">
+                        <i class="fa-solid fa-envelope-shield text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                        Exchange Online & Seguridad Perimetral de Correo
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+                        Arquitectura de flujo de correo corporativo y protección anti-phishing mediante integración de Exchange Online con Secure Email Gateways.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-sky-400 mt-0.5"></i>
+                            <span>Implementación estricta de registros <strong>SPF, DKIM y DMARC</strong> (p=reject) para prevenir suplantación de dominio.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-sky-400 mt-0.5"></i>
+                            <span>Conectores seguros entre Microsoft 365 y Perimeter Mail Gateway con reglas de transporte DLP.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-sky-400 mt-0.5"></i>
+                            <span>Políticas Anti-Phishing, Safe Links, Safe Attachments y cuarentena administrada.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="pt-4 border-t border-gray-800/80 flex flex-wrap gap-1.5 mb-3">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-sky-300 font-mono text-[11px]">Exchange Online</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">SPF/DKIM/DMARC</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">Mail Gateway</span>
+                    </div>
+                    <button onclick="openModal('exchange')" class="w-full py-2 px-3 rounded-lg bg-gray-800/70 hover:bg-sky-500/20 text-xs font-medium text-sky-300 border border-gray-700 hover:border-sky-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Ver arquitectura técnica</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- 9. INFRAESTRUCTURA: ITSM & Asset Inventory (ManageEngine ServiceDesk Plus & Azure DevOps) -->
+            <article data-category="infra" class="project-card bg-[#111827]/90 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 px-3 py-1 bg-orange-500/15 border-b border-l border-orange-500/30 rounded-bl-xl text-[11px] font-mono text-orange-300">
+                    INFRAESTRUCTURA · ITSM
+                </div>
+                <div>
+                    <div class="w-11 h-11 rounded-xl bg-orange-500/10 border border-orange-500/25 flex items-center justify-center text-orange-400 mb-5">
+                        <i class="fa-solid fa-boxes-stacked text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                        ITSM, Inventario de Activos & Azure DevOps
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+                        Gobierno de servicios TI, gestión de cambios (CAB) y trazabilidad completa del inventario tecnológico corporativo bajo mejores prácticas ITIL.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-orange-400 mt-0.5"></i>
+                            <span>Implementación de <strong>ManageEngine ServiceDesk Plus</strong> para incidentes, SLAs, CMDB y ciclo de vida de activos.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-orange-400 mt-0.5"></i>
+                            <span>Planificación ágil de proyectos de infraestructura y control de cambios con <strong>Azure DevOps</strong>.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-orange-400 mt-0.5"></i>
+                            <span>Planificación de capacidad, auditoría de licenciamiento y cumplimiento operativo.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="pt-4 border-t border-gray-800/80 flex flex-wrap gap-1.5 mb-3">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-orange-300 font-mono text-[11px]">ServiceDesk Plus</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">Azure DevOps</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">CMDB / ITIL</span>
+                    </div>
+                    <button onclick="openModal('itsm')" class="w-full py-2 px-3 rounded-lg bg-gray-800/70 hover:bg-orange-500/20 text-xs font-medium text-orange-300 border border-gray-700 hover:border-orange-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Ver arquitectura técnica</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- 10. CIBERSEGURIDAD: Operaciones SOC / SIEM & EDR/XDR -->
+            <article data-category="secops" class="project-card bg-[#111827]/90 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 px-3 py-1 bg-rose-500/15 border-b border-l border-rose-500/30 rounded-bl-xl text-[11px] font-mono text-rose-300">
+                    CIBERSEGURIDAD · SOC
+                </div>
+                <div>
+                    <div class="w-11 h-11 rounded-xl bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-rose-400 mb-5">
+                        <i class="fa-solid fa-radar text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                        Operaciones SOC/SIEM & Respuesta EDR/XDR
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+                        Monitoreo continuo 24/7, correlación de telemetría y contención temprana de amenazas combinando inteligencia SOC con defensa activa en endpoints.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-rose-400 mt-0.5"></i>
+                            <span>Integración de telemetría crítica en <strong>Cyrebro (SIEM/SOC)</strong> para detección y caza de amenazas.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-rose-400 mt-0.5"></i>
+                            <span>Despliegue y políticas anti-ransomware con <strong>Sophos EDR/XDR</strong> y Microsoft Defender.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-rose-400 mt-0.5"></i>
+                            <span>Playbooks de Incident Response para aislamiento automático de endpoints comprometidos.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="pt-4 border-t border-gray-800/80 flex flex-wrap gap-1.5 mb-3">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-rose-300 font-mono text-[11px]">Cyrebro SIEM/SOC</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">Sophos XDR</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">Incident Response</span>
+                    </div>
+                    <button onclick="openModal('soc')" class="w-full py-2 px-3 rounded-lg bg-gray-800/70 hover:bg-rose-500/20 text-xs font-medium text-rose-300 border border-gray-700 hover:border-rose-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Ver arquitectura técnica</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- 11. CIBERSEGURIDAD: Gestión de Vulnerabilidades & Gobierno NIST / Cloud -->
+            <article data-category="secops" class="project-card bg-[#111827]/90 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 px-3 py-1 bg-amber-500/15 border-b border-l border-amber-500/30 rounded-bl-xl text-[11px] font-mono text-amber-300">
+                    CIBERSEGURIDAD · GRC
+                </div>
+                <div>
+                    <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-amber-400 mb-5">
+                        <i class="fa-solid fa-bug-slash text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                        Vulnerability Management, NIST & Seguridad Cloud
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+                        Programa continuo de remediación automatizada de vulnerabilidades, Security Assessments y madurez de controles bajo el marco NIST CSF.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-amber-400 mt-0.5"></i>
+                            <span>Descubrimiento, priorización basada en riesgo y remediación automatizada con <strong>Vicarius</strong>.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-amber-400 mt-0.5"></i>
+                            <span>Ejecución de Security Assessments y controles en entornos <strong>Microsoft Azure y AWS</strong>.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-amber-400 mt-0.5"></i>
+                            <span>Gobierno y cumplimiento sobre las funciones Identify, Protect, Detect, Respond y Recover (NIST).</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="pt-4 border-t border-gray-800/80 flex flex-wrap gap-1.5 mb-3">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-amber-300 font-mono text-[11px]">Vicarius</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">NIST CSF</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">Azure & AWS</span>
+                    </div>
+                    <button onclick="openModal('nist')" class="w-full py-2 px-3 rounded-lg bg-gray-800/70 hover:bg-amber-500/20 text-xs font-medium text-amber-300 border border-gray-700 hover:border-amber-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Ver arquitectura técnica</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </button>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Sección de Stack Tecnológico Unificado -->
+        <section id="stack" class="mt-20 pt-12 border-t border-gray-800/80">
+            <h2 class="text-xl font-bold text-white mb-6">Ecosistema Tecnológico Unificado (Infraestructura & Ciberseguridad)</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                <div class="p-3.5 rounded-xl bg-gray-900/80 border border-gray-800 text-center">
+                    <p class="text-xs font-mono text-sky-400 font-semibold">Microsoft Entra ID</p>
+                    <p class="text-[11px] text-gray-500 mt-0.5">PIM & Conditional Access</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-gray-900/80 border border-gray-800 text-center">
+                    <p class="text-xs font-mono text-emerald-400 font-semibold">Microsoft Intune</p>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Hybrid Join, Autopilot & GPO</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-gray-900/80 border border-gray-800 text-center">
+                    <p class="text-xs font-mono text-cyan-400 font-semibold">FortiGate & Veeam</p>
+                    <p class="text-[11px] text-gray-500 mt-0.5">VWire Pair & Virtual Labs</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-gray-900/80 border border-gray-800 text-center">
+                    <p class="text-xs font-mono text-purple-400 font-semibold">Windows Server & M365</p>
+                    <p class="text-[11px] text-gray-500 mt-0.5">AD, IIS, Exchange & PowerShell</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-gray-900/80 border border-gray-800 text-center">
+                    <p class="text-xs font-mono text-rose-400 font-semibold">Cyrebro, Sophos & Vicarius</p>
+                    <p class="text-[11px] text-gray-500 mt-0.5">SIEM, XDR & Vuln Mgmt</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-gray-900/80 border border-gray-800 text-center">
+                    <p class="text-xs font-mono text-amber-400 font-semibold">NIST, Azure/AWS & ITSM</p>
+                    <p class="text-[11px] text-gray-500 mt-0.5">ServiceDesk Plus & DevOps</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal de Detalles Técnicos de Arquitectura -->
+    <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm" onclick="if(event.target === this) closeModal()">
+        <div class="bg-[#111827] border border-gray-700 rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative animate-fadeIn">
+            <button onclick="closeModal()" class="absolute top-5 right-5 w-8 h-8 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white flex items-center justify-center transition cursor-pointer" aria-label="Cerrar modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-badge" class="inline-block px-3 py-1 rounded-full text-xs font-mono bg-sky-500/15 text-sky-300 border border-sky-500/30 mb-3">
+                ARQUITECTURA TÉCNICA
+            </div>
+            <h3 id="modal-title" class="text-xl sm:text-2xl font-bold text-white mb-3">Título del Proyecto</h3>
+            <p id="modal-desc" class="text-sm text-gray-300 leading-relaxed mb-5">Descripción detallada.</p>
+            
+            <div class="bg-[#090d16] border border-gray-800 rounded-xl p-4 mb-5">
+                <h4 class="text-xs font-mono uppercase tracking-wider text-sky-400 mb-3">Componentes e Implementación Clave</h4>
+                <ul id="modal-bullets" class="space-y-2.5 text-xs sm:text-sm text-gray-300"></ul>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                <div id="modal-tags" class="flex flex-wrap gap-1.5"></div>
+                <button onclick="closeModal()" class="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs transition cursor-pointer">
+                    Cerrar vista
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800/80 bg-[#070a11] py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+            <p>&copy; 2026 Gerald (<span class="text-gray-400 font-mono">gerald0895</span>) — Gerente de Ciberseguridad & Arquitecto de Infraestructura TI.</p>
+            <div class="flex items-center gap-4">
+                <a href="https://gerald0895.github.io/githubpage/" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 transition">GitHub Pages</a>
+                <span>•</span>
+                <button onclick="copyCleanHTML()" class="hover:text-sky-400 transition cursor-pointer">Copiar Código HTML</button>
+            </div>
+        </div>
     </footer>
-  </div>
+
+    <!-- Lógica de filtrado, modal técnico y copiado de código limpio -->
+    <script>
+        // Base de datos de detalles técnicos para el modal interactivo
+        const architectureDetails = {
+            pim: {
+                badge: 'IDENTIDAD & ZERO TRUST',
+                title: 'Microsoft Entra PIM (Privileged Identity Management)',
+                desc: 'Eliminación de permisos administrativos permanentes (Zero Standing Access) en Microsoft Entra ID y suscripciones de Azure mediante elevación controlada de privilegios.',
+                bullets: [
+                    'Configuración de roles elegibles vs. activos con duración máxima de 2 a 4 horas por sesión.',
+                    'Flujo de aprobación multinivel para roles críticos (Global Administrator, Privileged Role Administrator, Security Administrator).',
+                    'Exigencia de Contexto de Autenticación (Authentication Context) con MFA resistente al phishing (FIDO2 / Authenticator).',
+                    'Campañas trimestrales de Access Reviews y alertas automáticas hacia el SOC ante activaciones fuera de horario.'
+                ],
+                tags: ['Entra ID PIM', 'Zero Standing Access', 'JIT Elevation', 'Access Reviews']
+            },
+            ca: {
+                badge: 'IDENTIDAD & ZERO TRUST',
+                title: 'Arquitectura Conditional Access & Zero Trust',
+                desc: 'Evaluación continua de señales (usuario, ubicación, dispositivo, aplicación y riesgo en tiempo real) antes de conceder acceso a recursos corporativos.',
+                bullets: [
+                    'Bloqueo global de protocolos de autenticación heredada (IMAP, POP3, SMTP básico) para mitigar ataques de password spray.',
+                    'Políticas de cumplimiento de dispositivo: acceso a Microsoft 365 y aplicaciones críticas restringido a equipos Compliant en Intune o Hybrid Entra Joined.',
+                    'Restricción por ubicaciones nombradas (Named Locations) bloqueando países fuera de la operación del negocio.',
+                    'Integración con Entra ID Protection para exigir cambio de contraseña seguro ante riesgo alto de usuario.'
+                ],
+                tags: ['Conditional Access', 'Entra ID Protection', 'Device Compliance', 'Zero Trust']
+            },
+            hybrid: {
+                badge: 'INTUNE & ENDPOINTS',
+                title: 'Unión Híbrida (Active Directory → Intune) y Migración de GPOs',
+                desc: 'Modernización de la administración de endpoints conectando el dominio local Active Directory con Microsoft Entra ID e Intune sin afectar la productividad.',
+                bullets: [
+                    'Despliegue y ajuste de Microsoft Entra Connect Sync con filtrado por Unidades Organizativas (OUs) y SCP (Service Connection Point).',
+                    'Inscripción automática masiva (Auto-Enrollment MDM) mediante directiva de grupo corporativa.',
+                    'Auditoría de directivas heredadas con Group Policy Analytics y migración hacia Settings Catalog y Windows Security Baselines.',
+                    'Endurecimiento de superficie de ataque (ASR Rules, Windows Defender Firewall, restricción de puertos USB).'
+                ],
+                tags: ['Hybrid Entra Join', 'Entra Connect', 'GPO Analytics', 'Security Baselines']
+            },
+            fleet: {
+                badge: 'INTUNE & ENDPOINTS',
+                title: 'Implementación de Flotas Corporativas con Microsoft Intune',
+                desc: 'Estandarización del aprovisionamiento, seguridad y mantenimiento continuo de flotas de estaciones de trabajo y dispositivos móviles.',
+                bullets: [
+                    'Configuración de Windows Autopilot (User-Driven y Pre-Provisioning) con perfiles dinámicos por área operativa.',
+                    'Cifrado silencioso de disco con BitLocker y custodia automatizada de claves de recuperación en Entra ID.',
+                    'Implementación de Windows LAPS gestionado en la nube para rotación automática de contraseñas de administrador local.',
+                    'Empaquetado y despliegue de aplicaciones Win32, parches escalonados con Windows Update for Business y acciones remotas (Wipe/Retire).'
+                ],
+                tags: ['Microsoft Intune', 'Windows Autopilot', 'BitLocker & LAPS', 'MDM / MAM']
+            },
+            fortigate: {
+                badge: 'ARQUITECTURA E INFRAESTRUCTURA',
+                title: 'Seguridad Perimetral FortiGate, VPN & Virtual Wire Pair',
+                desc: 'Arquitectura de seguridad de red y segmentación transparente para proteger el tráfico norte-sur y este-oeste de la infraestructura corporativa.',
+                bullets: [
+                    'Despliegue de Virtual Wire Pair para insertar inspección UTM/IPS de capa 7 de forma transparente entre switches core y routers sin reconfigurar subredes.',
+                    'Configuración de túneles VPN IPsec Site-to-Site redundantes y SSL VPN para acceso remoto seguro integrado con MFA.',
+                    'Perfiles de seguridad UTM: Intrusion Prevention (IPS), Web Filtering, Application Control y SSL Deep Inspection.',
+                    'Balanceo de enlaces WAN mediante SD-WAN con monitoreo SLA de latencia y pérdida de paquetes.'
+                ],
+                tags: ['FortiGate', 'Virtual Wire Pair', 'IPsec / SSL VPN', 'SD-WAN & IPS']
+            },
+            veeam: {
+                badge: 'ARQUITECTURA E INFRAESTRUCTURA',
+                title: 'Veeam Backup & Replication, DRP & Virtual Labs',
+                desc: 'Diseño de estrategia de respaldo resiliente y recuperación ante desastres alineada a objetivos RPO/RTO estrictos del negocio.',
+                bullets: [
+                    'Implementación de Virtual Labs aislados (Application Groups + Masquerade IP) para ejecutar pruebas automatizadas de SureBackup y validar integridad de aplicaciones.',
+                    'Arquitectura de almacenamiento 3-2-1-1-0 con repositorios Linux inmutables (XFS Reflink + Immutability) resistentes a ransomware.',
+                    'Replicación programada de servidores críticos hacia sitio secundario con planes de Failover documentados.',
+                    'Recuperación instantánea de máquinas virtuales (Instant VM Recovery) y restauración granular de Active Directory, SQL y Exchange.'
+                ],
+                tags: ['Veeam Backup', 'Virtual Labs', 'SureBackup', 'Immutable Storage']
+            },
+            adserver: {
+                badge: 'ARQUITECTURA E INFRAESTRUCTURA',
+                title: 'Active Directory, Windows Server, IIS & PowerShell Automation',
+                desc: 'Gobierno de servicios centrales de infraestructura Microsoft, servidores de aplicaciones web y automatización operativa.',
+                bullets: [
+                    'Administración de bosques y dominios Active Directory, replicación entre sitios, DNS integrado y DHCP en alta disponibilidad.',
+                    'Publicación y hardening de sitios y APIs corporativas en Internet Information Services (IIS) con certificados SSL/TLS y protocolos seguros.',
+                    'Implementación del modelo Tiering para protección de controladores de dominio y cuentas privilegiadas.',
+                    'Desarrollo de scripts en PowerShell para automatizar altas/bajas de usuarios, limpieza de cuentas inactivas y auditorías de seguridad.'
+                ],
+                tags: ['Active Directory', 'Windows Server', 'IIS Hardening', 'PowerShell']
+            },
+            exchange: {
+                badge: 'ARQUITECTURA E INFRAESTRUCTURA',
+                title: 'Exchange Online & Seguridad Perimetral de Correo',
+                desc: 'Protección integral del canal de correo electrónico corporativo frente a suplantación de identidad, BEC (Business Email Compromise) y malware.',
+                bullets: [
+                    'Alineación completa de autenticación de correo mediante SPF, firma criptográfica DKIM de 2048 bits y políticas DMARC en modo rechazo.',
+                    'Integración mediante conectores dedicados entre Exchange Online y Perimeter Mail Gateway para filtrado antispam y sandbox de adjuntos.',
+                    'Reglas de flujo de correo (Transport Rules) para prevención de fuga de información (DLP) y advertencias de remitentes externos.',
+                    'Configuración de Defender for Office 365 (Safe Links, Safe Attachments y protección contra suplantación de ejecutivos).'
+                ],
+                tags: ['Exchange Online', 'SPF / DKIM / DMARC', 'Perimeter Mail Gateway', 'DLP']
+            },
+            itsm: {
+                badge: 'ARQUITECTURA E INFRAESTRUCTURA',
+                title: 'ITSM, Inventario de Activos (ServiceDesk Plus) & Azure DevOps',
+                desc: 'Estandarización de procesos de soporte, control de cambios e inventario de activos tecnológicos para garantizar trazabilidad y cumplimiento.',
+                bullets: [
+                    'Despliegue y administración de ManageEngine ServiceDesk Plus: catálogos de servicios, acuerdos de nivel de servicio (SLA) y gestión de cambios.',
+                    'Control centralizado del inventario de hardware y software (CMDB), asignación de activos por usuario y alertas de renovación/garantía.',
+                    'Gestión de proyectos de arquitectura y seguimiento de tareas técnicas mediante tableros y repositorios en Azure DevOps.',
+                    'Indicadores KPI de operación TI y planificación de capacidad de infraestructura.'
+                ],
+                tags: ['ManageEngine ServiceDesk Plus', 'Azure DevOps', 'CMDB & Activos', 'ITIL']
+            },
+            soc: {
+                badge: 'CIBERSEGURIDAD & CLOUD',
+                title: 'Operaciones SOC/SIEM (Cyrebro) & Respuesta EDR/XDR (Sophos)',
+                desc: 'Detección proactiva, correlación de eventos de seguridad y respuesta coordinada ante incidentes en infraestructura híbrida y endpoints.',
+                bullets: [
+                    'Ingesta y normalización de logs de firewalls, servidores, Active Directory y nube hacia Cyrebro (SIEM/SOC).',
+                    'Administración centralizada de Sophos Intercept X (EDR/XDR) y Microsoft Defender con políticas anti-exploit y CryptoGuard.',
+                    'Ejecución de playbooks de Incident Response: triaje, análisis de causa raíz, aislamiento de red y erradicación de amenazas.',
+                    'Reducción del tiempo medio de detección (MTTD) y respuesta (MTTR) ante alertas críticas.'
+                ],
+                tags: ['Cyrebro SIEM/SOC', 'Sophos EDR/XDR', 'Microsoft Defender', 'Incident Response']
+            },
+            nist: {
+                badge: 'CIBERSEGURIDAD & CLOUD',
+                title: 'Vulnerability Management (Vicarius), NIST & Seguridad Azure/AWS',
+                desc: 'Gobierno de ciberseguridad basado en estándares internacionales, evaluaciones técnicas y remediación continua de vulnerabilidades.',
+                bullets: [
+                    'Ciclo continuo de gestión de vulnerabilidades con Vicarius: descubrimiento de CVEs, priorización por explotabilidad y parcheo automatizado/virtual patching.',
+                    'Evaluación de madurez e implementación de controles alineados al marco NIST Cybersecurity Framework (CSF).',
+                    'Ejecución de Security Assessments y revisión de postura de seguridad en suscripciones Microsoft Azure y cuentas AWS.',
+                    'Generación de métricas ejecutivas de reducción de riesgo para la alta dirección.'
+                ],
+                tags: ['Vicarius', 'NIST CSF', 'Azure & AWS Security', 'Security Assessments']
+            }
+        };
+
+        // Abrir modal con información técnica de la tarjeta seleccionada
+        function openModal(key) {
+            const data = architectureDetails[key];
+            if (!data) return;
+
+            document.getElementById('modal-badge').textContent = data.badge;
+            document.getElementById('modal-title').textContent = data.title;
+            document.getElementById('modal-desc').textContent = data.desc;
+
+            const bulletsList = document.getElementById('modal-bullets');
+            bulletsList.innerHTML = data.bullets.map(item => `
+                <li class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-sky-400 mt-1 text-xs"></i>
+                    <span>${item}</span>
+                </li>
+            `).join('');
+
+            const tagsContainer = document.getElementById('modal-tags');
+            tagsContainer.innerHTML = data.tags.map(tag => `
+                <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 font-mono text-[11px]">${tag}</span>
+            `).join('');
+
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Filtrado interactivo de tarjetas de proyectos
+        function filterProjects(category, btnElement) {
+            const cards = document.querySelectorAll('.project-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-sky-500/20', 'text-sky-300', 'border-sky-500/40');
+                btn.classList.add('bg-gray-800/70', 'text-gray-400', 'border-gray-700');
+            });
+            if (btnElement) {
+                btnElement.classList.remove('bg-gray-800/70', 'text-gray-400', 'border-gray-700');
+                btnElement.classList.add('bg-sky-500/20', 'text-sky-300', 'border-sky-500/40');
+            }
+
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (btnElement && btnElement.id === 'tab-infra') {
+                document.getElementById('proyectos').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Copiar el código HTML limpio (sin el botón de utilidad ni el toast de ayuda) listo para GitHub Pages
+        function copyCleanHTML() {
+            const clonedDoc = document.documentElement.cloneNode(true);
+            
+            // Limpiar elementos auxiliares de edición/copiado para producción
+            const toastEl = clonedDoc.querySelector('#toast');
+            if (toastEl) toastEl.remove();
+            
+            const copyNavBtn = clonedDoc.querySelector('#copy-btn-nav');
+            if (copyNavBtn) copyNavBtn.remove();
+
+            const modalEl = clonedDoc.querySelector('#project-modal');
+            if (modalEl) {
+                modalEl.classList.add('hidden');
+                modalEl.classList.remove('flex');
+            }
+
+            const cleanHtml = '<!DOCTYPE html>\n' + clonedDoc.outerHTML;
+            const textarea = document.createElement('textarea');
+            textarea.value = cleanHtml;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                const toast = document.getElementById('toast');
+                toast.classList.remove('hidden');
+                toast.classList.add('flex');
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                    toast.classList.remove('flex');
+                }, 3500);
+            } catch (err) {
+                console.error('No se pudo copiar el código:', err);
+            }
+            document.body.removeChild(textarea);
+        }
+    </script>
 </body>
 </html>
-
